@@ -1,0 +1,8 @@
+{
+  "name": "com.hyperskill.tests-for-tamago",
+  "version": "1.0.0",
+  "displayName": "TamagoTests",
+  "description": "Tests for Tamago project",
+  "type": "tests",
+  "hideInEditor": true
+}
