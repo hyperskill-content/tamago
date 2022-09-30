@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Runtime.InteropServices;
 using WindowsInput;
+using LinuxInput;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +12,7 @@ using UnityEngine.TestTools;
 public class Stage3_Tests
 {
     private InputSimulator IS = new InputSimulator();
+    private LinuxInputSimulator ISL = new LinuxInputSimulator();
     private GameObject egg;
     private Transform eggT;
     private Vector3 scaleBig, scaleSmall;
@@ -43,9 +46,15 @@ public class Stage3_Tests
         {
             Assert.Fail("Please, open, the \"Game\" window!");
         }
-        IS.Mouse.MoveMouseTo(X, Y);
+        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            IS.Mouse.MoveMouseTo(X, Y);
+        else
+            ISL.Mouse.MoveMouseTo(X, Y);
         yield return null;
-        IS.Mouse.LeftButtonDown();
+        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            IS.Mouse.LeftButtonDown();
+        else
+            ISL.Mouse.LeftButtonDown();
 
         start = Time.unscaledTime;
         yield return new WaitUntil(() => eggT.localScale.x < scaleBig.x &&
@@ -59,7 +68,10 @@ public class Stage3_Tests
 
         scaleSmall = eggT.localScale;
         
-        IS.Mouse.LeftButtonUp();
+        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            IS.Mouse.LeftButtonUp();
+        else
+            ISL.Mouse.LeftButtonUp();
         
         start = Time.unscaledTime;
         yield return new WaitUntil(() => eggT.localScale == scaleBig ||
@@ -72,7 +84,10 @@ public class Stage3_Tests
 
         for (int i = 0; i < 10; i++)
         {
-            IS.Mouse.LeftButtonDown();
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                IS.Mouse.LeftButtonDown();
+            else
+                ISL.Mouse.LeftButtonDown();
 
             start = Time.unscaledTime;
             yield return new WaitUntil(() => eggT.localScale == scaleSmall ||
@@ -85,7 +100,10 @@ public class Stage3_Tests
 
             scaleSmall = eggT.localScale;
         
-            IS.Mouse.LeftButtonUp();
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                IS.Mouse.LeftButtonUp();
+            else
+                ISL.Mouse.LeftButtonUp();
         
             start = Time.unscaledTime;
             yield return new WaitUntil(() => eggT.localScale == scaleBig ||
