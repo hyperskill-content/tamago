@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Runtime.InteropServices;
-using WindowsInput;
-using LinuxInput;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -13,8 +10,6 @@ using UnityEngine.UI;
 [Description("Make An Omelet Without Breaking Some Eggs"), Category("5")]
 public class Stage5_Tests
 {
-    private InputSimulator IS = new InputSimulator();
-    private LinuxInputSimulator ISL = new LinuxInputSimulator();
     private Text text;
     private string textBefore;
     private int count, count2;
@@ -66,18 +61,12 @@ public class Stage5_Tests
             Assert.Fail("Please, open, the \"Game\" window!");
         }
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            IS.Mouse.MoveMouseTo(X, Y);
-        else
-            ISL.Mouse.MoveMouseTo(X, Y);
+        VInput.MoveMouseTo(X,Y);
         yield return null;
 
         for (int i = 0; i < 5; i++)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                IS.Mouse.LeftButtonClick();
-            else
-                ISL.Mouse.LeftButtonClick();
+            VInput.LeftButtonClick();
 
             start = Time.unscaledTime;
             yield return new WaitUntil(() => !text.text.Equals(textBefore) ||
@@ -131,10 +120,7 @@ public class Stage5_Tests
         }
         for (int i = 94; i > 0; i--)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                IS.Mouse.LeftButtonClick();
-            else
-                ISL.Mouse.LeftButtonClick();
+            VInput.LeftButtonClick();
 
             start = Time.unscaledTime;
             yield return new WaitUntil(() => !text.text.Equals(textBefore) ||
@@ -161,10 +147,7 @@ public class Stage5_Tests
             }
         }
         
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            IS.Mouse.LeftButtonClick();
-        else
-            ISL.Mouse.LeftButtonClick();
+        VInput.LeftButtonClick();
         
         start = Time.unscaledTime;
         yield return new WaitUntil(() => !text.text.Equals(textBefore) ||
@@ -183,10 +166,7 @@ public class Stage5_Tests
                         "equal to phrase 'So, what?'");
         }
         
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            IS.Mouse.LeftButtonClick();
-        else
-            ISL.Mouse.LeftButtonClick();
+        VInput.LeftButtonClick();
         yield return new WaitForSeconds(1);
         textBefore = text.text;
         if (!textBefore.Equals("So, what?"))
@@ -216,6 +196,6 @@ public class Stage5_Tests
             Assert.Fail("If the player restarts the game after getting the 'So, what?' ending phrase, the " +
                         "value of 'Text' property of \"Countdown\" object's \"Text\" component should not change");
         }
-        
+        game.maximized = false;
     }
 }

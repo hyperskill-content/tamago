@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Runtime.InteropServices;
-using WindowsInput;
-using LinuxInput;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -13,8 +10,6 @@ using UnityEngine.UI;
 [Description("Put All One’s Eggs In A Basket"), Category("4")]
 public class Stage4_Tests
 {
-    private InputSimulator IS = new InputSimulator();
-    private LinuxInputSimulator ISL = new LinuxInputSimulator();
     private Text text;
     private string textBefore;
     private int count, count2;
@@ -65,15 +60,9 @@ public class Stage4_Tests
         {
             Assert.Fail("Please, open, the \"Game\" window!");
         }
-        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            IS.Mouse.MoveMouseTo(X, Y);
-        else
-            ISL.Mouse.MoveMouseTo(X, Y);
+        VInput.MoveMouseTo(X,Y);
         yield return null;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            IS.Mouse.LeftButtonClick();
-        else
-            ISL.Mouse.LeftButtonClick();
+        VInput.LeftButtonClick();
 
         start = Time.unscaledTime;
         yield return new WaitUntil(() => !text.text.Equals(textBefore) ||
@@ -103,10 +92,7 @@ public class Stage4_Tests
 
         for (int i = 0; i < 5; i++)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                IS.Mouse.LeftButtonClick();
-            else
-                ISL.Mouse.LeftButtonClick();
+            VInput.LeftButtonClick();
 
             start = Time.unscaledTime;
             yield return new WaitUntil(() => !text.text.Equals(textBefore) ||
@@ -134,5 +120,6 @@ public class Stage4_Tests
             textBefore = text.text;
             count = count2;
         }
+        game.maximized = false;
     }
 }

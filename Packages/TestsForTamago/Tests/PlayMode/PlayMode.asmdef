@@ -5,8 +5,7 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "hyperskill.hs-test-unity.Runtime",
-        "InputScripts",
-        "InputScriptsL"
+        "InputScripts"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

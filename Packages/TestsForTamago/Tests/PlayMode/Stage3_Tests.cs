@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Runtime.InteropServices;
-using WindowsInput;
-using LinuxInput;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -11,8 +8,6 @@ using UnityEngine.TestTools;
 [Description("Chicken And Egg Problem"), Category("3")]
 public class Stage3_Tests
 {
-    private InputSimulator IS = new InputSimulator();
-    private LinuxInputSimulator ISL = new LinuxInputSimulator();
     private GameObject egg;
     private Transform eggT;
     private Vector3 scaleBig, scaleSmall;
@@ -46,15 +41,10 @@ public class Stage3_Tests
         {
             Assert.Fail("Please, open, the \"Game\" window!");
         }
-        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            IS.Mouse.MoveMouseTo(X, Y);
-        else
-            ISL.Mouse.MoveMouseTo(X, Y);
+        
+        VInput.MoveMouseTo(X,Y);
         yield return null;
-        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            IS.Mouse.LeftButtonDown();
-        else
-            ISL.Mouse.LeftButtonDown();
+        VInput.LeftButtonDown();
 
         start = Time.unscaledTime;
         yield return new WaitUntil(() => eggT.localScale.x < scaleBig.x &&
@@ -68,10 +58,7 @@ public class Stage3_Tests
 
         scaleSmall = eggT.localScale;
         
-        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            IS.Mouse.LeftButtonUp();
-        else
-            ISL.Mouse.LeftButtonUp();
+        VInput.LeftButtonUp();
         
         start = Time.unscaledTime;
         yield return new WaitUntil(() => eggT.localScale == scaleBig ||
@@ -84,10 +71,7 @@ public class Stage3_Tests
 
         for (int i = 0; i < 10; i++)
         {
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                IS.Mouse.LeftButtonDown();
-            else
-                ISL.Mouse.LeftButtonDown();
+            VInput.LeftButtonDown();
 
             start = Time.unscaledTime;
             yield return new WaitUntil(() => eggT.localScale == scaleSmall ||
@@ -100,10 +84,7 @@ public class Stage3_Tests
 
             scaleSmall = eggT.localScale;
         
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                IS.Mouse.LeftButtonUp();
-            else
-                ISL.Mouse.LeftButtonUp();
+            VInput.LeftButtonUp();
         
             start = Time.unscaledTime;
             yield return new WaitUntil(() => eggT.localScale == scaleBig ||
@@ -114,5 +95,7 @@ public class Stage3_Tests
                             "every time the player releases the LMB key (initial size)");
             }
         }
+
+        game.maximized = false;
     }
 }
