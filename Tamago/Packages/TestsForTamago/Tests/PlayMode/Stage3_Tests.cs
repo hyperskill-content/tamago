@@ -10,7 +10,7 @@ public class Stage3_Tests
 {
     private GameObject egg;
     private Transform eggT;
-    private Vector3 scaleBig, scaleSmall;
+    private Vector2 scaleBig, scaleSmall;
     [UnityTest]
     public IEnumerator TapResizeCheck()
     {
@@ -61,7 +61,7 @@ public class Stage3_Tests
         VInput.LeftButtonUp();
         
         start = Time.unscaledTime;
-        yield return new WaitUntil(() => eggT.localScale == scaleBig ||
+        yield return new WaitUntil(() => (Vector2)eggT.localScale == scaleBig ||
                                          (Time.unscaledTime - start) * Time.timeScale > 1);
         if ((Time.unscaledTime - start) * Time.timeScale > 1)
         {
@@ -74,7 +74,7 @@ public class Stage3_Tests
             VInput.LeftButtonDown();
 
             start = Time.unscaledTime;
-            yield return new WaitUntil(() => eggT.localScale == scaleSmall ||
+            yield return new WaitUntil(() => (Vector2)eggT.localScale == scaleSmall ||
                                              (Time.unscaledTime - start) * Time.timeScale > 1);
             if ((Time.unscaledTime - start) * Time.timeScale > 1)
             {
@@ -87,7 +87,7 @@ public class Stage3_Tests
             VInput.LeftButtonUp();
         
             start = Time.unscaledTime;
-            yield return new WaitUntil(() => eggT.localScale == scaleBig ||
+            yield return new WaitUntil(() => (Vector2)eggT.localScale == scaleBig ||
                                              (Time.unscaledTime - start) * Time.timeScale > 1);
             if ((Time.unscaledTime - start) * Time.timeScale > 1)
             {
