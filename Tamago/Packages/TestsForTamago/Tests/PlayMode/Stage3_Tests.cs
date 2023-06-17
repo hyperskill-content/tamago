@@ -15,6 +15,10 @@ public class Stage3_Tests
     public IEnumerator TapResizeCheck()
     {
         PlayerPrefs.DeleteAll();
+        if (!Application.CanStreamedLevelBeLoaded("Game"))
+        {
+            Assert.Fail("\"Game\" scene is misspelled or was not added to build settings");
+        }
         SceneManager.LoadScene("Game");
 
         float start = Time.unscaledTime;

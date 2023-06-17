@@ -23,6 +23,10 @@ public class Stage2_Tests
     [UnityTest]
     public IEnumerator UIObjectsCheck()
     {
+        if (!Application.CanStreamedLevelBeLoaded("Game"))
+        {
+            Assert.Fail("\"Game\" scene is misspelled or was not added to build settings");
+        }
         SceneManager.LoadScene("Game");
             
         float start = Time.unscaledTime;
